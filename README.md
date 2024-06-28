@@ -6,11 +6,8 @@ From a static data repository, to a workspace for electrophysiological analysis.
 
 = How to run
 
-Run with `cargo runcc -c` or
-
 ```shell
-cargo run --features reload
-cargo watch -w lib -x "build -p lib"
+cargo run 
 ```
 
 = References
