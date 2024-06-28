@@ -1,0 +1,15 @@
+[package]
+name = "CRCNS-lens"
+version = "0.1.0"
+authors = ["José Gois <jhenriquetdg@gmail.com>"]
+edition = "2021"
+
+[workspace]
+resolver = "2"
+members = ["lib"]
+
+
+[dependencies]
+eframe = "0.27.0"
+lib = { path = "./lib" }
+tokio = { version = "1", features = ["net", "rt-multi-thread", "macros"] }
