@@ -7,14 +7,14 @@ use crate::types::Collection;
 
 pub struct CollectionPanel {
     pub is_open: bool,
-    pub collapsing: Vec<collapsing::Collapsing>,
+    pub collection: Collection,
 }
 
 impl Default for CollectionPanel {
     fn default() -> Self {
         Self {
             is_open: true,
-            collapsing: Vec::new(),
+            collection: Collection::default(),
         }
     }
 }

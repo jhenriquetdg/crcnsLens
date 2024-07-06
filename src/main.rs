@@ -6,8 +6,7 @@ use tokio::time::sleep;
 use lib::global::LENS;
 use lib::gui::app::Lens;
 
-#[tokio::main]
-async fn main() -> eframe::Result<()> {
+fn main() -> eframe::Result<()> {
     let trt = Runtime::new().expect("Unable to initialize tokio runtime.");
     let trt = Arc::new(Mutex::new(trt));
 

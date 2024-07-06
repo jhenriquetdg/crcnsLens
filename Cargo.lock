@@ -1273,6 +1273,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e4c3a552cfca14630702449d35f41c84a0d15963273771c6059175a803620f3f"
 dependencies = [
  "bytemuck",
+ "mint",
  "serde",
 ]
 
@@ -1689,6 +1690,16 @@ dependencies = [
  "khronos_api",
  "log",
  "xml-rs",
+]
+
+[[package]]
+name = "glam"
+version = "0.28.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "779ae4bf7e8421cf91c0b3b64e7e8b40b862fba4d393f59150042de7c4965a94"
+dependencies = [
+ "mint",
+ "serde",
 ]
 
 [[package]]
@@ -2260,10 +2271,12 @@ dependencies = [
  "egui_glow",
  "egui_plot",
  "futures-util",
+ "glam",
  "keyring",
  "log",
  "md5",
  "memmap2 0.9.4",
+ "mint",
  "ndarray",
  "once_cell",
  "polars",
@@ -2511,6 +2524,12 @@ dependencies = [
  "adler",
  "simd-adler32",
 ]
+
+[[package]]
+name = "mint"
+version = "0.5.9"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e53debba6bda7a793e5f99b8dacf19e626084f525f7829104ba9898f367d85ff"
 
 [[package]]
 name = "mio"

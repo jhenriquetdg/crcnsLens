@@ -45,6 +45,11 @@ pub fn set_state_dataset_files(files: Vec<File>) {
     let mut state_files = state.working_files.lock().unwrap();
     *state_files = files;
 }
+pub fn get_state_dataset_files() -> Vec<File> {
+    let state = get_state();
+    let state_files_mutex = state.working_files.lock().unwrap();
+    state_files_mutex.clone()
+}
 
 pub fn add_or_get_progress(key: String) -> Arc<Mutex<SrPair>> {
     let state = get_state();
@@ -147,7 +152,7 @@ pub fn set_state_fet_series() {
     let filepath = state.working_directory.clone();
     let filepath = filepath.join("data/hc/hc-3/ec012ec.11/ec012ec.188/ec012ec.188.fet.1");
 
-    let file_df: polars::frame::DataFrame = LazyCsvReader::new(filepath)
+    let file_df = LazyCsvReader::new(filepath)
         .with_has_header(false)
         .with_skip_rows(1)
         .with_separator(b' ')
@@ -156,6 +161,7 @@ pub fn set_state_fet_series() {
         .collect()
         .unwrap();
 
-    std::iter::zip(file_df[0].iter(), file_df[1].iter()).map(|(a, b)| a);
+    // std::iter::zip(file_df[0].iter(), file_df[1].iter()).map(|(a, b)| [a, b.cast(f64)]);
+
     println!("{}", file_df);
 }

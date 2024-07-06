@@ -9,15 +9,22 @@ pub fn details(ui: &mut egui::Ui, collection: Collection, dataset: Dataset) {
 
         if state_dataset == dataset && ui.button("x").clicked() {
             global::set_state_dataset(Dataset::default());
+            buttons::get_files_info(ui, collection.clone(), dataset.clone());
+            buttons::set_dataset(ui, collection.clone(), dataset.clone());
+            buttons::view_filelist(ui, collection.clone(), dataset.clone());
+
+            let files = global::get_state_dataset_files();
+
+            for file in files {
+                ui.label(file.remote_path);
+            }
         } else if ui.button("o").clicked() {
             global::set_state_dataset(dataset.clone());
         }
 
-        buttons::get_files_info(ui, collection.clone(), dataset.clone());
-        buttons::set_dataset(ui, dataset.clone());
-        ui.label(dataset.description.clone());
-        ui.label(dataset.last_modified.clone());
-        ui.label(dataset.description.clone());
-        ui.label(dataset.url.clone());
+        // ui.label(dataset.description.clone());
+        // ui.label(dataset.last_modified.clone());
+        // ui.label(dataset.description.clone());
+        // ui.label(dataset.url.clone());
     });
 }

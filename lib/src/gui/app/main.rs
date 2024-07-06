@@ -18,7 +18,7 @@ impl Default for Main {
     fn default() -> Self {
         let toasts = toasts::Toasts::new()
             .anchor(egui::Align2::RIGHT_BOTTOM, (10.0, 10.0))
-            .direction(egui::Direction::TopDown);
+            .direction(egui::Direction::BottomUp);
 
         Main {
             toasts,
@@ -58,9 +58,9 @@ impl Main {
 
                     if ui.button("Persist CRCNS").clicked() {
                         let c = state.collections.clone();
-                        let wd = state.working_directory.clone();
+                        let dd = state.working_directory.clone().join("data");
                         tokio::spawn(async move {
-                            CRCNS::persist(c, wd).await;
+                            CRCNS::persist(c, dd).await;
                         });
                     };
 
@@ -75,14 +75,14 @@ impl Main {
                         });
                     }
 
-                    if ui.button("q").clicked() {
-                        println!("Spawning");
-
-                        let base_url = "https://portal.nersc.gov/project/crcns/download/index.php";
-                        let url = url::Url::parse(base_url).unwrap();
-                        let url = url.join("hc-3/filelist.txt").unwrap();
-                        println!("{:?}", url.as_str());
-                    }
+                    // if ui.button("q").clicked() {
+                    //     println!("Spawning");
+                    //
+                    //     let base_url = "https://portal.nersc.gov/project/crcns/download/index.php";
+                    //     let url = url::Url::parse(base_url).unwrap();
+                    //     let url = url.join("hc-3/filelist.txt").unwrap();
+                    //     println!("{:?}", url.as_str());
+                    // }
 
                     ui.label(state.working_dataset.lock().unwrap().alias.clone());
 
@@ -90,31 +90,44 @@ impl Main {
                         global::set_state_spk_series();
                     }
 
-                    egui_plot::Plot::new("spk_plot")
-                        .allow_zoom(true)
-                        .allow_drag(true)
-                        .allow_scroll(true)
-                        .legend(egui_plot::Legend::default())
-                        .show(ui, |plot_ui| {
-                            let series = state.spk_series.lock().unwrap().clone();
-                            for serie in series.into_iter() {
-                                plot_ui.line(egui_plot::Line::new(serie))
-                            }
-                        });
+                    ui.allocate_ui_with_layout(
+                        egui::Vec2::new(1500.0, 300.0),
+                        egui::Layout::centered_and_justified(egui::Direction::LeftToRight),
+                        |ui| {
+                            egui_plot::Plot::new("spk_plot")
+                                .allow_zoom(true)
+                                .allow_drag(true)
+                                .allow_scroll(true)
+                                .allow_boxed_zoom(true)
+                                .legend(egui_plot::Legend::default())
+                                .show(ui, |plot_ui| {
+                                    let series = state.spk_series.lock().unwrap().clone();
+                                    for serie in series.into_iter() {
+                                        plot_ui.line(egui_plot::Line::new(serie))
+                                    }
+                                });
+                        },
+                    );
 
                     if ui.button("LFP").clicked() {
                         global::set_state_lfp_series();
                     }
-
-                    egui_plot::Plot::new("lfp_plot")
-                        .allow_zoom(true)
-                        .allow_drag(true)
-                        .allow_scroll(true)
-                        .legend(egui_plot::Legend::default())
-                        .show(ui, |plot_ui| {
-                            let series = state.lfp_series.lock().unwrap().clone();
-                            plot_ui.line(egui_plot::Line::new(series).name("LFP"))
-                        });
+                    ui.allocate_ui_with_layout(
+                        egui::Vec2::new(1500.0, 150.0),
+                        egui::Layout::centered_and_justified(egui::Direction::LeftToRight),
+                        |ui| {
+                            egui_plot::Plot::new("lfp_plot")
+                                .allow_zoom(true)
+                                .allow_drag(true)
+                                .allow_scroll(true)
+                                .allow_boxed_zoom(true)
+                                .legend(egui_plot::Legend::default())
+                                .show(ui, |plot_ui| {
+                                    let series = state.lfp_series.lock().unwrap().clone();
+                                    plot_ui.line(egui_plot::Line::new(series).name("LFP"))
+                                });
+                        },
+                    );
 
                     self.toasts.show(ctx);
                 });

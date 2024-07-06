@@ -14,7 +14,7 @@ pub async fn get_crcns_file(filepath: &str) -> reqwest::Response {
     let mut request_data = HashMap::new();
     request_data.insert("username", username.as_str());
     request_data.insert("password", password.as_str());
-    request_data.insert("fn", "hc-3/filelist.txt");
+    request_data.insert("fn", filepath);
     request_data.insert("submit", "Login");
 
     let client = Client::new();
