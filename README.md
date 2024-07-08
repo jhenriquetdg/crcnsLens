@@ -1,5 +1,7 @@
 = What is it?
 
+CRCNS is the collaborative research in computational neuroscience.
+
 CRCNS Lens is an overlay on the top of CRCNS.org website.
 
 From a static data repository, to a workspace for electrophysiological analysis.
